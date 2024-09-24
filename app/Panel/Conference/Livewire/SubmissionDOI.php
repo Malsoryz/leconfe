@@ -43,8 +43,12 @@ class SubmissionDOI extends Component implements HasForms, HasTable
     {
         $registrationAgency = app()->getCurrentConference()->getMeta('doi_registration_agency');
 
+        $query = Submission::query()
+            ->with('doi')
+            ->whereNotNull('proceeding_id');
+
         return $table
-            ->query(Submission::query()->with('doi'))
+            ->query($query)
             ->columns([
                 IndexColumn::make('no'),
                 TextColumn::make('title')

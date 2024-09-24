@@ -189,7 +189,6 @@ class ExportArticleCrossref
 	protected function createEventMetadata(): array
 	{
 		$scheduledConference = $this->submission->scheduledConference;
-
 		$metadata = [
 			'conference_name' => $scheduledConference->title,
 		];
@@ -229,8 +228,12 @@ class ExportArticleCrossref
 
 	protected function createProceedingsSeriesMetadata(): array
 	{
-		$site						= app()->getSite();
+		$site		= app()->getSite();
 		$proceeding = $this->submission->proceeding;
+
+		if(!$proceeding) {
+			throw new \Exception('Proceeding cannot be empty');
+		}
 
 		$metadata =  [
 			'series_metadata' => $this->createSeriesMetadata(),
